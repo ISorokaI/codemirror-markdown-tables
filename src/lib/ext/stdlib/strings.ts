@@ -1,18 +1,20 @@
-import { S } from "@mobily/ts-belt"
-
 /**
- * Returns true if the string is empty.
+ * Returns true if {@link value} is empty.
  */
-export const isEmpty = S.isEmpty
-
-/**
- * Returns the string appended to itself n times.
- */
-export const repeat = S.repeat
+export function isEmpty(value: string): boolean {
+  return value.length === 0
+}
 
 /**
  * Returns {@link value} if it is not empty, nil otherwise.
  */
 export function nilIfEmpty(value: string): string | undefined {
-  return value === "" ? undefined : value
+  return value.length === 0 ? undefined : value
+}
+
+/**
+ * Returns true if {@link value} is a string.
+ */
+export function isString(value: unknown): value is string {
+  return typeof value === "string"
 }

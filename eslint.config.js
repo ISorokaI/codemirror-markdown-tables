@@ -72,7 +72,6 @@ const simpleInputSortRules = {
           "^globals",
           "^@floating-ui",
           "^@lezer",
-          "^@mobily",
           "^node",
           "^runed",
           "^strong-mock",

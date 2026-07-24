@@ -4,7 +4,6 @@ import * as Arrays from "#ext/stdlib/arrays"
 import * as Assert from "#ext/stdlib/assert"
 import * as Numbers from "#ext/stdlib/numbers"
 import * as Repeat from "#ext/stdlib/repeat"
-import * as Strings from "#ext/stdlib/strings"
 
 import type { Alignment } from "#core/models/alignment"
 import type { TableProperties } from "#core/models/tableProperties"
@@ -120,11 +119,11 @@ function createAlignmentRow(alignments: readonly Alignment[], contentSizes: numb
 }
 
 function padding(count: number): string {
-  return Strings.repeat(" ", count)
+  return " ".repeat(count)
 }
 
 function hyphening(count: number): string {
-  return Strings.repeat("-", count)
+  return "-".repeat(count)
 }
 
 function alignmentContentSize(alignment: Alignment): number {

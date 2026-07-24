@@ -1,5 +1,3 @@
-import { A } from "@mobily/ts-belt"
-
 import type { Range, UpToRange } from "#ext/stdlib/range"
 
 import * as Assert from "./assert"
@@ -71,7 +69,7 @@ export function clamp<T>(
     return array.toSpliced(
       array.length,
       0,
-      ...A.repeat(options.min - array.length, options.fillWith),
+      ...repeat(options.fillWith, { count: options.min - array.length }),
     )
   } else if (array.length > options.max) {
     return array.toSpliced(options.max, array.length - options.max)
@@ -166,7 +164,12 @@ export function minBy<T>(array: readonly T[], comparatorFn: (first: T, second: T
  */
 export function repeat<T>(value: T, { count }: { count: number }): T[] {
   Assert.nonnegativeInteger(count)
-  return A.repeat(count, value)
+
+  const repeated: T[] = new Array<T>(count)
+  for (let i = 0; i < count; i++) {
+    repeated[i] = value
+  }
+  return repeated
 }
 
 /**
@@ -179,9 +182,9 @@ export function repeat2d<T>(value: T, { rows, cols }: { rows: number; cols: numb
   Assert.positiveInteger(rows)
   Assert.positiveInteger(cols)
 
-  const repeated: T[][] = []
+  const repeated: T[][] = new Array<T[]>(rows)
   for (let row = 0; row < rows; row++) {
-    repeated.push(A.repeat(cols, value))
+    repeated[row] = repeat(value, { count: cols })
   }
   return repeated
 }
@@ -231,7 +234,7 @@ export function isEmpty<T>(array: readonly T[]): boolean {
  * Returns an empty element if {@link array} has only one element.
  */
 export function tailOrEmpty<T>(array: readonly T[]): T[] {
-  return A.tailOrEmpty(array as T[])
+  return array.slice(1)
 }
 
 /**
@@ -284,9 +287,14 @@ export function equals<T>(
   secondArray: readonly T[] | undefined,
   comparatorFn: (first: T, second: T) => boolean,
 ): boolean {
-  if (nil(firstArray) || nil(secondArray)) return firstArray === secondArray
+  if (nil(firstArray)) return nil(secondArray)
+  if (nil(secondArray)) return false
+  if (firstArray.length !== secondArray.length) return false
 
-  return A.eq(firstArray as T[], secondArray as T[], comparatorFn)
+  for (let i = 0; i < firstArray.length; i++) {
+    if (!comparatorFn(firstArray[i], secondArray[i])) return false
+  }
+  return true
 }
 
 /**

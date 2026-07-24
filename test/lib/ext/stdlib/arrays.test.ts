@@ -289,8 +289,11 @@ describe("equals", () => {
   it("returns true when both nil", () => {
     expect(Arrays.equals(undefined, undefined, () => false)).toBe(true)
   })
-  it("returns false when one is nil", () => {
+  it("returns false when first is nil but second is not", () => {
     expect(Arrays.equals(undefined, ["foo"], () => true)).toBe(false)
+  })
+  it("returns false when second is nil but first is not", () => {
+    expect(Arrays.equals(["foo"], undefined, () => true)).toBe(false)
   })
   it("returns true when equal", () => {
     expect(

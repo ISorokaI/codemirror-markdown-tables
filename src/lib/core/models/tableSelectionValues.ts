@@ -1,4 +1,4 @@
-import * as Guards from "#ext/stdlib/guards"
+import * as Strings from "#ext/stdlib/strings"
 
 import type { CellSelection } from "#core/models/cellSelection"
 import * as CellSelections from "#core/models/cellSelections"
@@ -15,7 +15,7 @@ export function isNone(value: TableSelectionValue): value is "none" {
 }
 
 export function isCell(value: TableSelectionValue): value is CellSelection {
-  return !Guards.isString(value)
+  return !Strings.isString(value)
 }
 
 export function equals(first: TableSelectionValue, second: TableSelectionValue): boolean {
