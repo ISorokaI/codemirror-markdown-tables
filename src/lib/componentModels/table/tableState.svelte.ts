@@ -9,6 +9,8 @@ import * as Browsers from "#ext/dom/browsers"
 import * as DomSelections from "#ext/dom/selections"
 import { def, nil } from "#ext/stdlib/existence"
 
+import type { DecorateCell } from "#api/decoratedRange"
+
 import type { MenuView } from "#componentActions/menu/menuView"
 import type { MoveView } from "#componentActions/move/moveView"
 import type { OutlineView } from "#componentActions/outline/outlineView"
@@ -37,6 +39,7 @@ export interface TableStateProps {
   readonly markdownConfig: Getter<
     Pick<MarkdownConfig, "extensions" | "completeHTMLTags" | "pasteURLAsLink" | "htmlTagLanguage">
   >
+  readonly decorateCell: Getter<DecorateCell | undefined>
   readonly globalKeyBindings: Getter<readonly KeyBinding[]>
   readonly selectionType: Getter<"codemirror" | "native">
   readonly lineWrapping: Getter<"wrap" | "nowrap">
@@ -58,6 +61,7 @@ export class TableState {
     MarkdownConfig,
     "extensions" | "completeHTMLTags" | "pasteURLAsLink" | "htmlTagLanguage"
   >
+  readonly decorateCell: DecorateCell | undefined
 
   readonly globalKeyBindings: readonly KeyBinding[]
   readonly selectionType: "codemirror" | "native"
@@ -202,6 +206,7 @@ export class TableState {
     menuRootElement,
     extensions,
     markdownConfig,
+    decorateCell,
     globalKeyBindings,
     selectionType,
     lineWrapping,
@@ -225,6 +230,7 @@ export class TableState {
     this.rootEditor = $derived(rootEditor())
     this.extensions = $derived(extensions())
     this.markdownConfig = $derived(markdownConfig())
+    this.decorateCell = $derived(decorateCell())
     this.globalKeyBindings = $derived(globalKeyBindings())
     this.selectionType = $derived(selectionType())
     this.lineWrapping = $derived(lineWrapping())

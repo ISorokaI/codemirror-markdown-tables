@@ -86,6 +86,8 @@ function pushDescendentElements({
       })
     } else {
       elementLine.push({
+        from: textOffset + from,
+        to: textOffset + to,
         textContent: text.sliceString(textOffset + from, textOffset + to),
         classes: Arrays.nilIfEmpty(classes),
       })
@@ -97,6 +99,8 @@ function pushDescendentElements({
   do {
     if (cursor.from > expectedFrom) {
       elementLine.push({
+        from: textOffset + expectedFrom,
+        to: textOffset + cursor.from,
         textContent: text.sliceString(textOffset + expectedFrom, textOffset + cursor.from),
         classes: Arrays.nilIfEmpty(classes),
       })
@@ -123,6 +127,8 @@ function pushDescendentElements({
 
   if (expectedFrom < to)
     elementLine.push({
+      from: textOffset + expectedFrom,
+      to: textOffset + to,
       textContent: text.sliceString(textOffset + expectedFrom, textOffset + to),
       classes: Arrays.nilIfEmpty(classes),
     })

@@ -19,6 +19,7 @@ import { TableTheme } from "#codemirror/config/tableTheme"
  *     pasteURLAsLink: undefined,     // CM MarkdownConfig default: true
  *     htmlTagLanguage: undefined,    // CM MarkdownConfig default: default html language
  *   },
+ *   decorateCell: undefined,
  *   extensions: [],
  *   globalKeyBindings: [],
  * }
@@ -37,6 +38,7 @@ export function of(config?: Partial<TableConfig>): TableConfig {
       pasteURLAsLink: config?.markdownConfig?.pasteURLAsLink ?? undefined,
       htmlTagLanguage: config?.markdownConfig?.htmlTagLanguage ?? undefined,
     },
+    decorateCell: config?.decorateCell ?? undefined,
     extensions: config?.extensions ?? [],
     globalKeyBindings: config?.globalKeyBindings ?? [],
   }

@@ -3,11 +3,14 @@ import type { Extension } from "@codemirror/state"
 import { type KeyBinding } from "@codemirror/view"
 import type { MarkdownExtension } from "@lezer/markdown"
 
+import type { DecorateCell } from "#api/decoratedRange"
+
 import * as TableConfigs from "#codemirror/config/tableConfigs"
 import type { TableStyle } from "#codemirror/config/tableStyle"
 import type { TableTheme } from "#codemirror/config/tableTheme"
 import * as TableExtensions from "#codemirror/tableExtensions"
 
+export type { DecorateCell, DecoratedRange } from "#api/decoratedRange"
 export type { Defined } from "#ext/stdlib/utilityTypes"
 export { TableTheme, type TableThemeProps } from "#codemirror/config/tableTheme"
 export { TableStyle, type TableStyleProps } from "#codemirror/config/tableStyle"
@@ -151,6 +154,21 @@ export interface MarkdownTablesConfig {
      */
     htmlTagLanguage?: LanguageSupport
   }
+
+  /**
+   * Computes decorations to overlay on the **cell view** — the read-only representation
+   * shown when a cell isn't selected. Unlike {@link extensions}, which only affect the
+   * CodeMirror editor embedded in the _currently selected_ cell, this lets you mimic the
+   * same look (e.g. hiding Markdown marker characters, styling custom syntax) for _every_
+   * cell, all the time.
+   *
+   * This is a narrow, string-based subset of the full CodeMirror decoration model — it
+   * supports hiding a range and adding a CSS class over a range, but not widgets, since the
+   * cell view has no live DOM/EditorView to mount one in.
+   *
+   * Defaults to `undefined` (cell view shows the highlighter's own syntax classes only).
+   */
+  readonly decorateCell?: DecorateCell | undefined
 
   /**
    * Keyboard shortcuts for the table cell editor that delegate to the _root_ CodeMirror editor.

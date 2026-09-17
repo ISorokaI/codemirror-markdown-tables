@@ -31,6 +31,7 @@
   "types": "./dist/codemirror-markdown-tables.d.ts",
   "scripts": {
     "dev": "vite --config vite.config.app.ts --host 0.0.0.0",
+    "prepare": "npm run build",
     "build": "vite --config vite.config.app.ts build",
     "build:demo": "vite --config vite.config.demo.ts build",
     "preview:demo": "vite preview --config vite.config.demo.ts --host 0.0.0.0",

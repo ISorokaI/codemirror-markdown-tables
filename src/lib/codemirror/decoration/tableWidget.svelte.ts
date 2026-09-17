@@ -133,8 +133,14 @@ export class TableWidget extends WidgetType {
       })
     })
 
-    const { extensions, markdownConfig, globalKeyBindings, selectionType, lineWrapping } =
-      TableEditorState.getTableConfig(view.state)
+    const {
+      extensions,
+      markdownConfig,
+      decorateCell,
+      globalKeyBindings,
+      selectionType,
+      lineWrapping,
+    } = TableEditorState.getTableConfig(view.state)
 
     const component = mount(TableComponent, {
       target: widgetElement,
@@ -145,6 +151,7 @@ export class TableWidget extends WidgetType {
         rootEditor: view,
         extensions,
         markdownConfig,
+        decorateCell,
         globalKeyBindings,
         selectionType,
         lineWrapping,

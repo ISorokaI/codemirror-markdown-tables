@@ -10,6 +10,8 @@
   import * as Functions from "#ext/stdlib/functions"
   import { alwaysDef, type number_, typed } from "#ext/webstorm/workarounds"
 
+  import type { DecorateCell } from "#api/decoratedRange"
+
   import * as CellViewRenderer from "#componentModels/table/cell/cellView/cellViewRenderer"
   import * as Handles from "#componentModels/table/handle/handles"
   import { TableState } from "#componentModels/table/tableState.svelte"
@@ -45,6 +47,7 @@
     menuRootElement,
     extensions,
     markdownConfig,
+    decorateCell,
     globalKeyBindings,
     selectionType,
     lineWrapping,
@@ -63,6 +66,7 @@
       MarkdownConfig,
       "extensions" | "completeHTMLTags" | "pasteURLAsLink" | "htmlTagLanguage"
     >
+    decorateCell: DecorateCell | undefined
     globalKeyBindings: readonly KeyBinding[]
     selectionType: "codemirror" | "native"
     lineWrapping: "wrap" | "nowrap"
@@ -80,6 +84,7 @@
     menuRootElement: () => menuRootElement,
     extensions: () => extensions,
     markdownConfig: () => markdownConfig,
+    decorateCell: () => decorateCell,
     globalKeyBindings: () => globalKeyBindings,
     selectionType: () => selectionType,
     lineWrapping: () => lineWrapping,
@@ -171,6 +176,7 @@
               {@html CellViewRenderer.render(
                 tableState.table.cellAt(location),
                 tableState.highlighter(location),
+                tableState.decorateCell,
               )}
             </CellView>
             {#if selected}

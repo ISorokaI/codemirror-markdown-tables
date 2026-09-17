@@ -2,6 +2,8 @@ import type { MarkdownConfig } from "@codemirror/lang-markdown"
 import type { Extension } from "@codemirror/state"
 import type { KeyBinding } from "@codemirror/view"
 
+import type { DecorateCell } from "#api/decoratedRange"
+
 import { TableStyle } from "#codemirror/config/tableStyle"
 import { TableTheme } from "#codemirror/config/tableTheme"
 
@@ -17,6 +19,7 @@ export interface TableConfig {
   readonly lineWrapping: "wrap" | "nowrap"
   readonly handlePosition: "outside" | "inside"
   readonly markdownConfig: CellEditorMarkdownConfig
+  readonly decorateCell: DecorateCell | undefined
   readonly extensions: readonly Extension[]
   readonly globalKeyBindings: readonly KeyBinding[]
 }
