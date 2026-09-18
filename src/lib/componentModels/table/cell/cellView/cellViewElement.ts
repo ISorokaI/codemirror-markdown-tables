@@ -5,6 +5,7 @@ export interface CellViewElement {
   to: number
   textContent: string
   classes: string[] | undefined
+  attributes?: Record<string, string> | undefined
 }
 
 export type CellViewElementLine = CellViewElement[]

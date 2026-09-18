@@ -82,9 +82,24 @@ function applyDecoratedRanges(
     )
     if (hidden) continue
 
-    const extraClasses = ranges
-      .filter((range) => range.type === "mark" && range.from <= from && range.to >= to)
-      .map((range) => (range as { class: string }).class)
+    const markRanges = ranges.filter(
+      (range): range is Extract<DecoratedRange, { type: "mark" }> =>
+        range.type === "mark" && range.from <= from && range.to >= to,
+    )
+    const extraClasses = markRanges.map((range) => range.class)
+
+    const extraAttributes: Record<string, string> = {}
+    let hasAttributes = false
+    if (def(covering.attributes)) {
+      Object.assign(extraAttributes, covering.attributes)
+      hasAttributes = true
+    }
+    for (const range of markRanges) {
+      if (def(range.attributes)) {
+        Object.assign(extraAttributes, range.attributes)
+        hasAttributes = true
+      }
+    }
 
     const textContent = covering.textContent.slice(from - covering.from, to - covering.from)
     if (textContent.length === 0) continue
@@ -94,6 +109,7 @@ function applyDecoratedRanges(
       to,
       textContent,
       classes: Arrays.nilIfEmpty([...(covering.classes ?? []), ...extraClasses]),
+      attributes: hasAttributes ? extraAttributes : undefined,
     })
   }
   return result
@@ -105,8 +121,19 @@ function toHtml(elementLines: CellViewElementLine[]): string {
     .join("<span data-br>\n</span>")
 }
 
-function elementToHtml({ textContent, classes }: CellViewElement): string {
-  return def(classes)
-    ? `<span class="${classes.join(" ")}">${HtmlTags.escapeContent(textContent)}</span>`
-    : HtmlTags.escapeContent(textContent)
+function elementToHtml({ textContent, classes, attributes }: CellViewElement): string {
+  const hasClasses = def(classes)
+  const hasAttributes = def(attributes) && Object.keys(attributes).length > 0
+
+  if (hasClasses || hasAttributes) {
+    const classAttr = hasClasses ? ` class="${classes.join(" ")}"` : ""
+    const attrs = hasAttributes
+      ? Object.entries(attributes)
+          .map(([key, value]) => ` ${key}="${HtmlTags.escapeAttributeValue(value)}"`)
+          .join("")
+      : ""
+    return `<span${classAttr}${attrs}>${HtmlTags.escapeContent(textContent)}</span>`
+  }
+
+  return HtmlTags.escapeContent(textContent)
 }

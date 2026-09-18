@@ -10,7 +10,13 @@ import type { Text } from "@codemirror/state"
  * There's no widget-rendering support since the cell view has no live DOM/EditorView to mount one in.
  */
 export type DecoratedRange =
-  | { readonly type: "mark"; readonly from: number; readonly to: number; readonly class: string }
+  | {
+      readonly type: "mark"
+      readonly from: number
+      readonly to: number
+      readonly class: string
+      readonly attributes?: Record<string, string>
+    }
   | { readonly type: "hide"; readonly from: number; readonly to: number }
 
 /**
